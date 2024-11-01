@@ -1,18 +1,23 @@
 # Number Guessing Game
 
-A simple, interactive number guessing game built with Python and `tkinter`. This game challenges players to guess a randomly generated number between 1 and 100, providing feedback after each guess. A fun and engaging way to practice programming with graphical interfaces and input validation!
+An enhanced number guessing game built with Python and `tkinter`, now featuring difficulty levels, a countdown timer, and a game menu! In this game, players can select their preferred difficulty level, which affects the time limit for guessing the number between 1 and 100. 
 
 ## Features
-- **Random Number Generation**: A new random number between 1 and 100 is generated for each round, ensuring a unique game experience.
-- **User Feedback**: Provides hints on whether each guess is too high or too low, guiding the player closer to the answer.
-- **Attempt Counter**: Tracks the number of attempts, adding an extra layer of challenge for players to guess in as few tries as possible.
-- **Input Validation**: Handles invalid inputs gracefully, ensuring the game only accepts integer guesses within the correct range.
+- **Difficulty Levels**: Players can choose from Easy (60 seconds), Medium (30 seconds), or Hard (15 seconds) before starting the game.
+- **Countdown Timer**: A countdown timer provides urgency, turning red when fewer than 10 seconds are left.
+- **Game Menu**: A main menu allows players to choose the difficulty level, start the game, or exit.
+- **Feedback System**: Gives hints on whether each guess is too high or too low, and tracks the number of attempts.
+- **Attempt Counter**: Tracks the number of attempts, motivating players to improve with each game.
 
 ## Project Structure
-- `NumberGuessingGame` Class: Contains the main game logic and GUI components.
-  - `__init__(self, root)`: Sets up the main window with labels, input fields, and buttons.
-  - `check_guess(self)`: Handles the user's input, checks it against the target number, and provides feedback.
-  - `reset_game(self)`: Resets the game state to start a new round, generating a fresh random number and resetting the attempt counter.
+- `GameMenu` Class: Handles the main menu where users select difficulty levels and start or exit the game.
+  - `__init__(self, root)`: Initializes menu options and difficulty level selection.
+  - `start_game(self)`: Starts a new game with the selected difficulty and time limit.
+- `NumberGuessingGame` Class: Manages the main gameplay, timer, and feedback.
+  - `__init__(self, root, time_limit, menu_root)`: Sets up the game window, initializes the timer, and tracks attempts.
+  - `start_timer(self)`: Starts the countdown timer, updating every second.
+  - `check_guess(self)`: Checks the user's guess, provides hints, and congratulates the player upon a correct guess.
+  - `return_to_menu(self)`: Closes the game window and returns to the main menu.
 
 ## Prerequisites
 - **Python 3.x** installed on your system
@@ -26,17 +31,22 @@ A simple, interactive number guessing game built with Python and `tkinter`. This
    ```
 2. Run the game with:
    ```bash
-   python number_guessing_game.py
+   python guess_number_gui.py
    ```
 
 ## How to Play
-1. Enter a number between 1 and 100 in the input field.
-2. Click the **Guess** button to submit your guess.
-3. The game will provide feedback on whether your guess is too high, too low, or correct.
-4. Continue guessing based on the feedback until you find the correct number.
-5. When you guess correctly, a congratulatory message appears, and the game automatically resets for a new round.
+1. Select a difficulty level from the main menu:
+   - **Easy**: 60 seconds
+   - **Medium**: 30 seconds
+   - **Hard**: 15 seconds
+2. Click **Start Game** to begin.
+3. Enter a number between 1 and 100 in the input field.
+4. Click the **Guess** button to submit your guess. The game provides feedback on whether your guess is too high or too low.
+5. If the timer runs out, a message will appear, and you can return to the menu to start a new game.
+6. If you guess correctly, the game congratulates you and takes you back to the menu.
 
 ## Example Gameplay
+- **User selects Medium difficulty** (30 seconds).
 - **User Input**: 50
 - **Feedback**: "Too high! Try again."
 - **User Input**: 25
