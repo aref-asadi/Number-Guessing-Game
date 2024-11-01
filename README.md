@@ -26,7 +26,7 @@ A simple, interactive number guessing game built with Python and `tkinter`. This
    ```
 2. Run the game with:
    ```bash
-   python guess_number_gui.py
+   python number_guessing_game.py
    ```
 
 ## How to Play
