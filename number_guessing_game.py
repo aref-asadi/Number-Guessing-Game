@@ -2,11 +2,49 @@ import tkinter as tk
 from tkinter import messagebox
 import random
 
-class NumberGuessingGame:
+class GameMenu:
     def __init__(self, root):
+        self.root = root
+        self.root.title("Game Menu")
+
+        # Label for the game title
+        self.label_title = tk.Label(root, text="Number Guessing Game", font=("Helvetica", 18))
+        self.label_title.pack(pady=20)
+
+        # Difficulty selection buttons
+        self.difficulty = tk.StringVar()
+        self.difficulty.set("Medium")  # Default difficulty
+
+        tk.Label(root, text="Select Difficulty:", font=("Helvetica", 14)).pack(pady=10)
+        tk.Radiobutton(root, text="Easy (60 seconds)", variable=self.difficulty, value="Easy", font=("Helvetica", 12)).pack()
+        tk.Radiobutton(root, text="Medium (30 seconds)", variable=self.difficulty, value="Medium", font=("Helvetica", 12)).pack()
+        tk.Radiobutton(root, text="Hard (15 seconds)", variable=self.difficulty, value="Hard", font=("Helvetica", 12)).pack()
+
+        # Start game button
+        self.start_button = tk.Button(root, text="Start Game", command=self.start_game, font=("Helvetica", 12))
+        self.start_button.pack(pady=10)
+
+        # Exit button
+        self.exit_button = tk.Button(root, text="Exit", command=root.quit, font=("Helvetica", 12))
+        self.exit_button.pack(pady=10)
+
+    def start_game(self):
+        # Close the menu and open the game window
+        self.root.withdraw()  # Hide the menu window
+        difficulty = self.difficulty.get()
+        time_limit = 60 if difficulty == "Easy" else 30 if difficulty == "Medium" else 15
+        game_window = tk.Toplevel(self.root)
+        NumberGuessingGame(game_window, time_limit, self.root)  # Pass the menu window reference to return to
+
+class NumberGuessingGame:
+    def __init__(self, root, time_limit, menu_root):
         # Initial setup for the main window
         self.root = root
         self.root.title("Number Guessing Game")
+        self.menu_root = menu_root
+        self.time_left = time_limit  # Set time based on selected difficulty
+        self.game_started = True  # Game is started now
+        self.timer_running = True
 
         # Generate a random number between 1 and 100
         self.target_number = random.randint(1, 100)
@@ -28,6 +66,30 @@ class NumberGuessingGame:
         self.button_guess = tk.Button(root, text="Guess", command=self.check_guess, font=("Helvetica", 12))
         self.button_guess.pack(pady=10)
 
+        # Label to display the countdown timer
+        self.label_timer = tk.Label(root, text=f"Time Left: {self.time_left} seconds", font=("Helvetica", 12), fg="green")
+        self.label_timer.pack(pady=5)
+
+        # Start the countdown timer
+        self.start_timer()
+
+    def start_timer(self):
+        """Start the countdown timer and update it every second."""
+        if self.time_left > 0 and self.timer_running:
+            self.time_left -= 1  # Decrement the time
+            self.label_timer.config(text=f"Time Left: {self.time_left} seconds")
+            
+            # Change the timer color to red when time is below 10 seconds
+            if self.time_left <= 10:
+                self.label_timer.config(fg="red")
+                
+            # Schedule the next countdown update after 1 second
+            self.root.after(1000, self.start_timer)
+        elif self.time_left == 0 and self.timer_running:
+            # If time runs out, show a timeout message and reset the game
+            messagebox.showinfo("Time's up!", "You've run out of time!")
+            self.return_to_menu()
+
     def check_guess(self):
         """Check the user's guess and display appropriate messages"""
         try:
@@ -39,29 +101,23 @@ class NumberGuessingGame:
             # Check if the number is within the range of 1 to 100
             if guess < 1 or guess > 100:
                 messagebox.showwarning("Invalid input", "Please guess a number between 1 and 100.")
-            # Check if the guess is lower than the target number
             elif guess < self.target_number:
                 messagebox.showinfo("Hint", "Too low! Try again.")
-            # Check if the guess is higher than the target number
             elif guess > self.target_number:
                 messagebox.showinfo("Hint", "Too high! Try again.")
-            # If the guess is correct
             else:
                 messagebox.showinfo("Congratulations!", f"You guessed the number in {self.attempts} attempts!")
-                self.reset_game()  # Restart the game after a correct guess
+                self.return_to_menu()  # Return to menu after a correct guess
         except ValueError:
-            # Show an error message if the input is not a valid integer
             messagebox.showerror("Invalid input", "Please enter a valid integer.")
 
-    def reset_game(self):
-        """Reset the game for a new round"""
-        self.target_number = random.randint(1, 100)  # Generate a new random number
-        self.attempts = 0  # Reset the attempt counter
-        self.label_attempts.config(text="Attempts: 0")  # Update the attempts display
-        self.entry_guess.delete(0, tk.END)  # Clear the entry field
+    def return_to_menu(self):
+        """Return to the game menu and reset the game"""
+        self.root.destroy()  # Close the game window
+        self.menu_root.deiconify()  # Show the menu window again
 
 if __name__ == "__main__":
-    # Create and run the game window
+    # Create and run the main menu window
     root = tk.Tk()
-    game = NumberGuessingGame(root)
+    game_menu = GameMenu(root)
     root.mainloop()
