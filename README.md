@@ -1,65 +1,85 @@
-# Number Guessing Game
+### Number Guessing Game - Multiplayer with High Score
 
-An enhanced number guessing game built with Python and `tkinter`, now featuring difficulty levels, a countdown timer, and a game menu! In this game, players can select their preferred difficulty level, which affects the time limit for guessing the number between 1 and 100. 
+This is a multiplayer number guessing game built using Python's `tkinter` library. It includes a game menu, multiplayer support, difficulty levels, a countdown timer, and a high score feature that tracks the best performance across games.
 
 ## Features
-- **Difficulty Levels**: Players can choose from Easy (60 seconds), Medium (30 seconds), or Hard (15 seconds) before starting the game.
-- **Countdown Timer**: A countdown timer provides urgency, turning red when fewer than 10 seconds are left.
-- **Game Menu**: A main menu allows players to choose the difficulty level, start the game, or exit.
-- **Feedback System**: Gives hints on whether each guess is too high or too low, and tracks the number of attempts.
-- **Attempt Counter**: Tracks the number of attempts, motivating players to improve with each game.
 
-## Project Structure
-- `GameMenu` Class: Handles the main menu where users select difficulty levels and start or exit the game.
-  - `__init__(self, root)`: Initializes menu options and difficulty level selection.
-  - `start_game(self)`: Starts a new game with the selected difficulty and time limit.
-- `NumberGuessingGame` Class: Manages the main gameplay, timer, and feedback.
-  - `__init__(self, root, time_limit, menu_root)`: Sets up the game window, initializes the timer, and tracks attempts.
-  - `start_timer(self)`: Starts the countdown timer, updating every second.
-  - `check_guess(self)`: Checks the user's guess, provides hints, and congratulates the player upon a correct guess.
-  - `return_to_menu(self)`: Closes the game window and returns to the main menu.
+1. **Multiplayer Mode**: Two players take turns guessing the number.
+2. **Difficulty Levels**: 
+   - Easy (60 seconds)
+   - Medium (30 seconds)
+   - Hard (15 seconds)
+3. **High Score Tracking**: The game records and displays the best performance (minimum total attempts) across all games.
+4. **Countdown Timer**: Keeps the game engaging by adding a time limit based on the selected difficulty.
+5. **Hints System**: Provides hints ("Too low!" or "Too high!") to guide players.
+6. **Graphical User Interface (GUI)**: Built using `tkinter` for a user-friendly experience.
 
-## Prerequisites
-- **Python 3.x** installed on your system
-- **tkinter** library (typically included with Python installations)
+## Installation
 
-## How to Install and Run
-1. Clone the project repository:
-   ```bash
-   git clone https://github.com/aref-asadi/number_guessing_game.git
-   cd number_guessing_game
-   ```
-2. Run the game with:
-   ```bash
-   python guess_number_gui.py
-   ```
+### Prerequisites
+
+Ensure you have Python installed on your system. This game uses the `tkinter` library, which comes pre-installed with Python.
+
+### Clone the Repository
+
+```
+git clone https://github.com/aref-asadi/number-guessing-game.git
+cd number-guessing-game
+```
+
+### Run the Game
+
+Execute the following command in your terminal to start the game:
+
+```
+python number_guessing_game.py
+```
 
 ## How to Play
-1. Select a difficulty level from the main menu:
-   - **Easy**: 60 seconds
-   - **Medium**: 30 seconds
-   - **Hard**: 15 seconds
-2. Click **Start Game** to begin.
-3. Enter a number between 1 and 100 in the input field.
-4. Click the **Guess** button to submit your guess. The game provides feedback on whether your guess is too high or too low.
-5. If the timer runs out, a message will appear, and you can return to the menu to start a new game.
-6. If you guess correctly, the game congratulates you and takes you back to the menu.
 
-## Example Gameplay
-- **User selects Medium difficulty** (30 seconds).
-- **User Input**: 50
-- **Feedback**: "Too high! Try again."
-- **User Input**: 25
-- **Feedback**: "Too low! Try again."
-- **User Input**: 37
-- **Feedback**: "Congratulations! You guessed the number in 3 attempts!"
+1. **Launch the Game**: Run the script to open the game menu.
+2. **Enter Player Names**: Input names for Player 1 and Player 2.
+3. **Select Difficulty**: Choose a difficulty level to set the countdown timer.
+4. **Start the Game**: Press "Start Game" to begin.
+5. **Guess the Number**:
+   - Players take turns guessing a number between 1 and 100.
+   - The game provides hints after each guess.
+6. **Win or Lose**:
+   - If a player guesses the number correctly, the game ends, and the total attempts are recorded.
+   - If the timer runs out, the game ends, and you can return to the menu.
+
+## High Score Feature
+
+- The game saves the high score (minimum total attempts across both players) to a `highscore.txt` file.
+- If a new high score is achieved, it will be saved and displayed in the game menu.
+
+## File Structure
+
+```
+.
+├── number_guessing_game.py      # Main game file
+├── highscore.txt                # File for storing high score (generated at runtime)
+├── LICENSE                      # License file
+└── README.md                    # Readme file
+```
+
+## Customization
+
+- **High Score File**: The high score is saved in `highscore.txt`. You can change the file name or location by modifying the `save_high_score` and `load_high_score` methods.
+- **Difficulty Settings**: Adjust the time limits for each difficulty in the `start_game` method.
 
 ## Contributing
-Contributions are welcome! To contribute:
+
+Contributions are welcome! Feel free to fork the repository and submit a pull request.
+
 1. Fork the repository.
-2. Create a new branch with your feature or bug fix.
-3. Commit your changes and push the branch.
-4. Submit a pull request detailing your changes.
+2. Create a new branch (`git checkout -b feature-branch-name`).
+3. Clone your fork (`git clone https://github.com/your-username/number-guessing-game.git`)
+4. Chnage your directory (`cd number-guessing-game`)
+5. Commit your changes (`git commit -m 'Add a new feature'`).
+6. Push to the branch (`git push origin feature-branch-name`).
+7. Open a pull request.
 
 ## License
+
 This project is licensed under the GNU General Public License v3.0.
